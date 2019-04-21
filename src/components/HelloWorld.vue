@@ -71,9 +71,7 @@ export default {
             this.gameIsRunning = true;
             this.playerHealth = 100;
             this.monsterHealth = 100;
-            console.log(this.turns)
             this.turns = []; 
-                    console.log(this.turns.length)
         },
         attack: function () {
             var damage = this.calculateDamage(3, 10);
