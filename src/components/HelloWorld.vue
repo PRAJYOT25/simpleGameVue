@@ -71,7 +71,9 @@ export default {
             this.gameIsRunning = true;
             this.playerHealth = 100;
             this.monsterHealth = 100;
-            this.turns = [];
+            console.log(this.turns)
+            this.turns = []; 
+                    console.log(this.turns.length)
         },
         attack: function () {
             var damage = this.calculateDamage(3, 10);
@@ -116,29 +118,56 @@ export default {
         monsterAttacks: function() {
             var damage = this.calculateDamage(5, 12);
             this.playerHealth -= damage;
-            this.checkWin();
             this.turns.unshift({
                 isPlayer: false,
                 text: 'Monster hits Player for ' + damage
             });
+            this.checkWin();
         },
         calculateDamage: function(min, max) {
             return Math.max(Math.floor(Math.random() * max) + 1, min);
         },
         checkWin: function() {
             if (this.monsterHealth <= 0) {
-                if (confirm('You won! New Game?')) {
+                Swal.fire({
+                title: 'You won!',
+                text: "New Game?",
+                type: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+                }).then((result) => {
+                if (result.value) {
                     this.startGame();
-                } else {
-                    this.gameIsRunning = false;
                 }
+                else {
+                     this.gameIsRunning = false;
+                 }
+                })
                 return true;
             } else if (this.playerHealth <= 0) {
-                if (confirm('You lost! New Game?')) {
+                Swal.fire({
+                title: 'You lost!',
+                text: "New Game?",
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+                }).then((result) => {
+                if (result.value) {
                     this.startGame();
-                } else {
-                    this.gameIsRunning = false;
                 }
+                else {
+                     this.gameIsRunning = false;
+                 }
+                })
+                // if (confirm('You lost! New Game?')) {
+                //     this.startGame();
+                // } else {
+                //     this.gameIsRunning = false;
+                // }
                 return true;
             }
             return false;
